@@ -32,13 +32,32 @@ The durable project head used when preparing this snapshot is
 
 The public `src/final_loose/` files are the retained final loose-C10 source files from the durable branch. The public `src/audit/` directory contains safe audit/control implementations retained by the final theorem-pipeline audit.
 
+## Public reproduction sources added for release
+
+The public repository also contains reconstruction sources whose purpose is to make the certified branch logic directly rerunnable even where an exact historical source snapshot did not survive as an ordinary file. These files are explicitly distinguished from the historical theorem-producing hashes above.
+
+`src/reproduction/no_c10_side51.cpp` was reconstructed from the proved restricted-growth schedule, the two complete triangle-root first-extension orbits, and the branch rejection order structural -> C8 -> C10 -> C16. During the publication sanity pass on 2026-08-16, a fresh GCC `-O3` side-51 run reproduced the certified aggregate exactly:
+
+```text
+states=440620
+attempted=125589272
+structural=4639096
+c8=45300852
+c10=70099730
+c16=5108976
+accepted=440618
+completions=0
+```
+
+`src/audit/chorded_no_loose_primary.cpp` is a clean reconstructed direct-incidence implementation retained from the post-reset validation work. The clean-reproduction record reports the side-51 branch counters and independent replay. It is not relabeled as the missing original source snapshot whose SHA-256 is recorded above.
+
 ## Current release boundary
 
-The initial public GitHub snapshot does **not** claim to be a complete binary certificate archive. In particular, the original order-102 binary certificates and the exact final no-C10 / singly-chorded generator-verifier source snapshots are identified by hashes and replay records in `ORDER102_CERTIFIED.md`, but those four exact source files are not present as ordinary files in the final durable project tree from which this snapshot was assembled.
+The public GitHub snapshot does **not** claim to be a complete binary certificate archive. In particular, the original order-102 binary certificates and the exact final no-C10 / singly-chorded generator-verifier source snapshots are identified by hashes and replay records in `ORDER102_CERTIFIED.md`, but those four exact historical source files are not present as ordinary files in the final durable project tree from which this snapshot was assembled.
 
-Related independently checked implementations are included where retained, but they are not relabeled as the missing exact snapshots.
+The public reconstruction programs improve practical reproducibility but do not alter this provenance statement. They are not substituted into the historical source-hash ledger.
 
-A future archival release may add the exact historical binaries/source objects if recovered from the durable computation archive. Until then, the claims supported directly by this repository should be read together with the hash manifest and clean-reproduction report.
+A future archival release may add the exact historical binaries/source objects if recovered from the durable computation archive. Until then, the theorem should be read together with the certified hash manifest, clean-reproduction report, public reconstruction programs, and the exact retained loose-C10 generator/verifier.
 
 ## Excluded historical experiments
 
