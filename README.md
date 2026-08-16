@@ -16,11 +16,11 @@ The order-102 computation was certified on 2026-08-12 and independently reconstr
 
 ## Repository layout
 
-- `paper/` — preprint source.
+- `paper/` — preprint artifact/hash record; the generated PDF is intended for the public release/arXiv deposit.
 - `src/final_loose/` — theorem-producing loose-C10 partition generator and independently implemented summary verifier.
 - `src/audit/` — exact audit/control programs used to validate the RGS search, cycle oracles, fixed roots, and compact certificates.
-- `reports/` — concise theorem, audit, partition, certificate, and clean-reproduction records.
-- `notes/extensions/` — structural extensions beyond the order-104 theorem; these are not additional certified lower-bound claims.
+- `reports/` — theorem, audit, coverage, partition, certificate, clean-reproduction, and source-provenance records.
+- `notes/extensions/` — proved structural extensions beyond the order-104 theorem; branch-level computations there are not additional certified lower-bound claims.
 
 ## Order-102 aggregate
 
@@ -42,7 +42,7 @@ This repository is a curated publication snapshot from the research branch `math
 
 The final loose-C10 generator/verifier sources are included directly. Audit/control sources included here are the safe versions retained by the final theorem-pipeline audit. Historical experimental reductions explicitly marked retracted in the audit are intentionally omitted from the public `src/` tree.
 
-The durable order-102 report also records SHA-256 hashes for the theorem-producing no-C10 and singly-chorded generator/verifier snapshots. The corresponding full certificate archives are not included in this initial GitHub snapshot; their hashes and replay results are preserved in the reports.
+The durable order-102 report also records SHA-256 hashes for the theorem-producing no-C10 and singly-chorded generator/verifier snapshots. The corresponding exact historical source files and full binary certificate archives are not included in this initial GitHub snapshot; their hashes and replay results are preserved in the reports. See `reports/SOURCE_PROVENANCE.md` for the precise release boundary.
 
 ## Compiler environment used for the certified run
 
