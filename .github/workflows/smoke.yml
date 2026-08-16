@@ -1,0 +1,44 @@
+name: reproducibility-smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile public C++ sources
+        run: |
+          set -euxo pipefail
+          mkdir -p build
+          g++ -O2 -std=c++17 -DSIDE=20 -DTASK_DEPTH=12 src/final_loose/partition_summary_gen.cpp -o build/partition_summary_gen
+          g++ -O2 -std=c++17 -DSIDE=20 -DTASK_DEPTH=12 src/final_loose/partition_summary_verify.cpp -o build/partition_summary_verify
+          g++ -O2 -std=c++17 -DSIDE=20 src/audit/loose_compact_cert.cpp -o build/loose_compact_cert
+          g++ -O2 -std=c++17 -DSIDE=20 src/audit/verify_loose_compact_mitm.cpp -o build/verify_loose_compact_mitm
+          g++ -O2 -std=c++17 -DSIDE=20 src/audit/chorded_no_loose_primary.cpp -o build/chorded_no_loose_primary
+          g++ -O2 -std=c++17 src/audit/generic_census.cpp -o build/generic_census
+          g++ -O2 -std=c++17 src/audit/filter_gen_inc8_rootrow.cpp -o build/filter_gen_inc8_rootrow
+          g++ -O2 -std=c++17 -DSIDE=20 src/reproduction/no_c10_side51.cpp -o build/no_c10_smoke
+
+      - name: Loose summary generator/verifier round trip
+        run: |
+          set -euxo pipefail
+          build/partition_summary_gen 0 1 /tmp/loose.egps
+          build/partition_summary_verify 0 1 /tmp/loose.egps
+
+      - name: Compact loose certificate round trip
+        run: |
+          set -euxo pipefail
+          build/loose_compact_cert /tmp/loose.compact
+          build/verify_loose_compact_mitm /tmp/loose.compact
+
+      - name: Small branch smoke tests
+        run: |
+          set -euxo pipefail
+          build/no_c10_smoke
+          build/chorded_no_loose_primary
+          build/generic_census 5
+          build/filter_gen_inc8_rootrow 5 /tmp/rootrow.bin
